@@ -88,7 +88,7 @@ mod tests {
 
         let body = test::read_body(res).await;
         let mock_response_category_updated: ApiResponse<dto::ResponseCategory> =
-            serde_json::from_str(&String::from_utf8(body.to_vec()).unwrap()).unwrap();
+            serde_json::from_slice(&body).unwrap();
 
         assert_eq!(
             mock_response_category_updated.records.first().unwrap().name,

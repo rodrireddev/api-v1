@@ -1,6 +1,6 @@
 [package]
 name = "rust-http-template"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -36,6 +36,7 @@ pem = "2.0.1"
 serde_json = "1.0.96"
 lapin = "2.2.1"
 futures = "0.3.28"
+argon2 = { version = "0.5", features = ["std"] }
 
 [dev-dependencies]
 mockall = "0.11.3"

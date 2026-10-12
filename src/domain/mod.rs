@@ -1,3 +1,4 @@
 pub mod categories;
 pub mod error;
 pub mod health;
+pub mod register;

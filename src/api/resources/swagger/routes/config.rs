@@ -12,6 +12,8 @@ use utoipa_swagger_ui::SwaggerUi;
         crate::api::resources::categories::routes::find_by_id::handler,
         crate::api::resources::categories::routes::find::handler,
         crate::api::resources::categories::routes::delete_by_id::handler,
+        //Register
+        crate::api::resources::register::routes::sign_in::handler,
     ),
     components(schemas(
         crate::api::error::ErrorResponse, crate::api::utils::response::Meta,
@@ -20,6 +22,10 @@ use utoipa_swagger_ui::SwaggerUi;
         crate::api::resources::categories::dto::ResponseCategory,
         crate::api::resources::categories::dto::RequestCreateCategory,
         crate::api::resources::categories::dto::RequestUpdateCategory,
+        //Register
+        crate::api::utils::response::ApiResponseUser,
+        crate::api::resources::register::dto::ResponseUser,
+        crate::api::resources::register::dto::RequestCreateUser,
     ))
 )]
 struct ApiDoc;

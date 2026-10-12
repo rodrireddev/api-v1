@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
-use crate::api::{config::get_config, resources::categories::dto::ResponseCategory};
+use crate::api::{config::get_config, resources::{categories::dto::ResponseCategory, register::dto::ResponseUser}};
 
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 pub struct Meta {
@@ -24,7 +24,7 @@ impl Meta {
 }
 
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
-#[aliases(ApiResponseCategory = ApiResponse<ResponseCategory>,)]
+#[aliases(ApiResponseCategory = ApiResponse<ResponseCategory>, ApiResponseUser = ApiResponse<ResponseUser>,)]
 pub struct ApiResponse<T> {
     pub meta: Meta,
     pub records: Vec<T>,

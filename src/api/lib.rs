@@ -14,15 +14,22 @@ use crate::{
         config,
         error::ErrorResponse,
         middleware,
-        resources::{health, swagger, categories},
+        resources::{categories, health, register, swagger},
     },
-    domain::{categories::repository::CategoryRepository, health::repository::HealthRepository},
-    repository::{categories::PgCategoryRepository, health::PgHealthRepository, postgres},
+    domain::{
+        categories::repository::CategoryRepository, health::repository::HealthRepository,
+        register::repository::UserRepository,
+    },
+    repository::{
+        categories::PgCategoryRepository, health::PgHealthRepository, postgres,
+        register::PgUserRepository,
+    },
 };
 
 pub struct AppState {
     pub health_repository: Arc<dyn HealthRepository>,
     pub category_repository: Arc<dyn CategoryRepository>,
+    pub user_repository: Arc<dyn UserRepository>,
 }
 
 pub async fn run(pg_pool: Arc<Pool>, redis_client: Arc<Client>) -> Result<(), Box<dyn Error>> {
@@ -52,6 +59,7 @@ pub async fn run(pg_pool: Arc<Pool>, redis_client: Arc<Client>) -> Result<(), Bo
             redis_client.clone(),
         )),
         category_repository: Arc::new(PgCategoryRepository::new(pg_pool.clone())),
+        user_repository: Arc::new(PgUserRepository::new(pg_pool.clone())),
     });
 
     let web_addr = &config::get_config().web_addr;
@@ -77,6 +85,7 @@ pub async fn run(pg_pool: Arc<Pool>, redis_client: Arc<Client>) -> Result<(), Bo
             .configure(swagger::routes::init_routes)
             .configure(health::routes::init_routes)
             .configure(categories::routes::init_routes)
+            .configure(register::routes::init_routes)
     })
     .bind(web_addr)?
     .run()
