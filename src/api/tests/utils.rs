@@ -7,6 +7,7 @@ use crate::{
         health::PgHealthRepository,
         postgres::{self, init_to_tests},
         redis,
+        register::PgUserRepository,
     },
 };
 
@@ -40,6 +41,7 @@ async fn setup() {
 pub struct Repositories {
     pub health_repository: Arc<PgHealthRepository>,
     pub category_repository: Arc<PgCategoryRepository>,
+    pub user_repository: Arc<PgUserRepository>,
 }
 
 impl Repositories {
@@ -47,10 +49,12 @@ impl Repositories {
     pub fn new(
         health_repository: Arc<PgHealthRepository>,
         category_repository: Arc<PgCategoryRepository>,
+        user_repository: Arc<PgUserRepository>,
     ) -> Self {
         Self {
             health_repository,
             category_repository,
+            user_repository,
         }
     }
 }
@@ -60,6 +64,7 @@ impl AppState {
         Data::new(Self {
             health_repository: repositories.health_repository.clone(),
             category_repository: repositories.category_repository.clone(),
+            user_repository: repositories.user_repository.clone(),
         })
     }
 }
@@ -99,7 +104,9 @@ where
     let health_repository = Arc::new(PgHealthRepository::new(pool.clone(), redis_client.clone()));
     let category_repository = Arc::new(PgCategoryRepository::new(pool.clone()));
 
-    let repositories = Repositories::new(health_repository, category_repository);
+    let user_repository = Arc::new(PgUserRepository::new(pool.clone()));
+
+    let repositories = Repositories::new(health_repository, category_repository, user_repository);
 
     let app_state = AppState::mock_default(&repositories);
 

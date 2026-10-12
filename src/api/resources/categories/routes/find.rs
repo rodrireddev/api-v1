@@ -97,7 +97,7 @@ mod tests {
 
         let body = test::read_body(res).await;
         let response_categories_finded: ApiResponse<dto::ResponseCategory> =
-            serde_json::from_str(&String::from_utf8(body.to_vec()).unwrap()).unwrap();
+            serde_json::from_slice(&body).unwrap();
 
         assert!(!response_categories_finded.records.is_empty());
     }
@@ -125,7 +125,7 @@ mod tests {
 
         let body = test::read_body(res).await;
         let response_categories_finded: ApiResponse<dto::ResponseCategory> =
-            serde_json::from_str(&String::from_utf8(body.to_vec()).unwrap()).unwrap();
+            serde_json::from_slice(&body).unwrap();
 
         assert!(!response_categories_finded.records.is_empty());
     }
