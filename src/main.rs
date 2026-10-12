@@ -25,15 +25,15 @@ async fn main() -> io::Result<()> {
     let pg_pool_move = pg_pool.clone();
     tokio::spawn(async move {
         let result = amqp::lib::run(pg_pool_move).await;
-        if result.is_err() {
-            log::error!("{}", result.unwrap_err().to_string());
+        if let Err(err) = result {
+            log::error!("{}", err);
             std::process::exit(1)
         }
     });
 
     let result = lib::run(pg_pool.clone(), redis_client.clone()).await;
-    if result.is_err() {
-        log::error!("{}", result.unwrap_err().to_string());
+    if let Err(err) = result {
+        log::error!("{}", err);
         std::process::exit(1)
     }
 

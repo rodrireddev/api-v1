@@ -1,4 +1,3 @@
-use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
 #[derive(Debug, Clone)]
@@ -6,7 +5,7 @@ pub struct UserCreateModel {
     pub id: Uuid,
     pub account_name: String,
     pub name: String,
-    pub email: String;
+    pub email: String,
     pub password: Option<String>,
 }
 

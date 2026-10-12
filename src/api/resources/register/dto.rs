@@ -1,15 +1,10 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
-use utoipa::{IntoParams, ToSchema};
-use uuid::Uuid;
+use serde::Deserialize;
+use utoipa::ToSchema;
 use validator::Validate;
 
-use crate::{
-    api::utils::validator::validate_page_size_max,
-    domain::categories::model::{CategoryCreateModel, CategoryModel, CategoryUpdateModel},
-};
+use crate::domain::register::model::UserCreateModel;
 
-#[cfg_attr(test, derive(Serialize))]
+#[cfg_attr(test, derive(serde::Serialize))]
 #[derive(Debug, Deserialize, Validate, ToSchema, Clone)]
 pub struct RequestCreateUser {
     #[validate(length(max = 64))]
@@ -35,7 +30,7 @@ impl RequestCreateUser {
             account_name: "Kael99".to_string(),
             name: "Kael".to_string(),
             email: "Kael@gmail.com".to_string(),
-            password: "12345678".to_string(),
+            password: Some("12345678".to_string()),
         }
     }
 }
